@@ -2,6 +2,7 @@ import React from 'react';
 
 const Services = ({service, setTreatment}) => {
     const {name, slots} = service
+ 
     return (
         <div className="card w-full bg-base-100 text-center shadow-xl">
   <div className="card-body">

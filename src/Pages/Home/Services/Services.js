@@ -7,19 +7,19 @@ import SingleServices from "./SingleServices";
 const Services = () => {
   const servicesInfo = [
     {
-      key: 1,
+      id: 1,
       img: `${Fluoride}`,
       name: "Fluoride Treatment",
       info: "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
     },
     {
-      key: 2,
+      id: 2,
       img: `${cavity}`,
       name: "Cavity Filling",
       info: "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
     },
     {
-      key: 3,
+      id: 3,
       img: `${whitening}`,
       name: "Teeth Whitening",
       info: "Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the",
@@ -28,7 +28,7 @@ const Services = () => {
   return (
     <div>
       <h1 className="text-secondary  text-4xl font-semibold  text-center lg:my-12">Our Service</h1>
-      {/* <h1 className="text-4xl text-center lg:my-6">Services We Provide</h1> */}
+
       <div className="grid lg:grid-cols-3 md:grid-cols-2  
        sm:grid-cols-1 gap-4 lg:mx-12 ">
         {
