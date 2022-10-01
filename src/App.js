@@ -10,6 +10,8 @@ import Contact from "./Pages/Contact/Contact";
 import Login from "./Form/Login/Login";
 import SignIn from "./Form/SignIn/SignIn";
 import PrivateRoute from "./Shared/PrivateRoute/PrivateRoute";
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <div>
@@ -30,6 +32,7 @@ function App() {
         <Route path="logIn" element={<Login />} />
         <Route path="signIn" element={<SignIn />} />
       </Routes>
+      <ToastContainer/>
     </div>
   );
 }

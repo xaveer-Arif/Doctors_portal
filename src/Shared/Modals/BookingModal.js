@@ -1,15 +1,47 @@
 import { format } from "date-fns";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 import auth from "../../Firebase/firebase.init";
 
-const BookingModal = ({ treatment, setTreatment, date }) => {
+const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
   const [user, loading, error] = useAuthState(auth);
-  const { id, name, slots } = treatment;
+  const { _id, name, slots } = treatment;
+  const formateDate = format(date,"PP") 
 
   const modalForm = (e) => {
     e.preventDefault();
-    setTreatment(null);
+    const booking ={
+      treatmentId: _id,
+      treatment:name,
+      date: formateDate,
+      patientEmail:user.email,
+      patientName:user.displayName,
+      phone:e.target.phone.value,
+      slot:e.target.slot.value
+      
+    }
+
+    fetch('http://localhost:5000/bookings', {
+      method:"POST",
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify(booking)
+
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.Response){
+        toast('Successfully added')
+      }
+      else{
+        toast.error('Service already booked')
+      }
+      refetch()
+      
+      setTreatment(null);
+    })
   };
 
   return (
@@ -60,7 +92,7 @@ const BookingModal = ({ treatment, setTreatment, date }) => {
               ))}
             </select>
             <input
-              type="phone"
+              type="number"
               name="phone"
               placeholder="Phone Number"
               className="input input-bordered input-secondary w-full max-w-xs "
