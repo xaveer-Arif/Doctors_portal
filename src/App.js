@@ -10,8 +10,13 @@ import Contact from "./Pages/Contact/Contact";
 import Login from "./Form/Login/Login";
 import SignIn from "./Form/SignIn/SignIn";
 import PrivateRoute from "./Shared/PrivateRoute/PrivateRoute";
-import { ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import MyDashboard from "./Pages/Dashboard/MyDashboard/MyDashboard";
+import MyAppointment from "./Pages/Dashboard/MyAppointment/MyAppointment";
+import MyReview from "./Pages/Dashboard/MyReview/MyReview";
+import AllUsers from "./Pages/Dashboard/AllUsers/AllUsers";
+import AdminRoute from "./Shared/AdminRoute/AdminRoute";
 function App() {
   return (
     <div>
@@ -27,12 +32,25 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="dashboard"
+          element={
+            <PrivateRoute>
+              <MyDashboard />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<MyAppointment/>}  />
+          <Route path="review" element={<MyReview/>}  />
+          <Route path="allUsers" element={<AdminRoute><AllUsers/></AdminRoute>} />
+        </Route>
         <Route path="reviews" element={<Reviews />} />
         <Route path="contact" element={<Contact />} />
         <Route path="logIn" element={<Login />} />
         <Route path="signIn" element={<SignIn />} />
+        
       </Routes>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

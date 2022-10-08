@@ -8,14 +8,12 @@ const Navbar = () => {
   const [user] = useAuthState(auth);
 
   const logOut = () => {
-    signOut(auth)
-    .then(() =>{
-
-    })
-  }
+    signOut(auth);
+    localStorage.removeItem('accessToken')
+  };
   return (
-    <div className="navbar bg-base-100">
-      <div className="navbar-start">
+    <div className="navbar bg-gray-100">
+      <div className="navbar-start ">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
             <svg
@@ -35,7 +33,7 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-48"
           >
             <li>
               <Link to="/">Home</Link>
@@ -46,7 +44,7 @@ const Navbar = () => {
             <li>
               <Link to="/appointment">Appointment</Link>
             </li>
-            <li>
+         <li>
               <Link to="/reviews">Reviews</Link>
             </li>
             <li>
@@ -54,7 +52,9 @@ const Navbar = () => {
             </li>
             {user ? (
               <li>
-                <Link onClick={logOut} to="/">log Out</Link>
+                <Link onClick={logOut} to="/">
+                  log Out
+                </Link>
               </li>
             ) : (
               <li>
@@ -65,7 +65,7 @@ const Navbar = () => {
         </div>
         <a className="btn btn-ghost normal-case text-xl">Doctors Portal</a>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      <div className="navbar-center  hidden lg:flex">
         <ul className="menu menu-horizontal p-0">
           <li>
             <Link to="/">Home</Link>
@@ -83,19 +83,23 @@ const Navbar = () => {
             <Link to="/contact">Contact Us</Link>
           </li>
           {user ? (
-              <li>
-                <Link onClick={logOut} to="/">log Out</Link>
-              </li>
-            ) : (
-              <li>
-                <Link to="/Login">Login</Link>
-              </li>
-            )}
+            <li>
+              <Link onClick={logOut} to="/">
+                log Out
+              </Link>
+            </li>
+          ) : (
+            <li>
+              <Link to="/Login">Login</Link>
+            </li>
+          )}
+          <li>{user && <Link to="/dashboard">Dashboard</Link>}</li>
         </ul>
-      </div>
-      {/*  <div className="navbar-end">
-        <a className="btn">Get started</a>
-      </div> */}
+     
+      </div> 
+      <div className="navbar-end">
+       <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Dashboard</label>
+      </div> 
     </div>
   );
 };

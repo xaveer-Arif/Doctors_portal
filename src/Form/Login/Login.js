@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loading from "../../Shared/Loading";
 import { useEffect } from "react";
+import useToken from "../../Hooks/useToken";
 
 
 const Login = () => {
@@ -29,12 +30,13 @@ const Login = () => {
 
  
   // with google
-  const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, gUser, googleLoading, googleError] = useSignInWithGoogle(auth);
 
   const googleSignIn = () => {
     signInWithGoogle();
 
   };
+const token = useToken(user||gUser)
 
   // with email and pass
   const onSubmit = (data) => {
@@ -42,10 +44,10 @@ const Login = () => {
   };
   const from = location.state?.from?.pathname || "/"
   useEffect(() =>{
-    if(user || googleUser){
+    if(token){
       navigate(from, {replace:true})
     }
-  },[user, from, googleUser, navigate ])
+  },[ from,token, navigate ])
   let loginError;
   if (error || googleError) {
    loginError = (<p className="text-red-500">{error?.message || googleError?.message}</p>)

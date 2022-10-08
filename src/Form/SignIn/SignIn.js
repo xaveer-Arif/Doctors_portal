@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from "react-firebase-hooks/auth";
 import auth from "../../Firebase/firebase.init";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../Shared/Loading";
+import useToken from "../../Hooks/useToken";
 
 const SignIn = () => {
   const location = useLocation()
@@ -20,6 +21,15 @@ const SignIn = () => {
   const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
   // with google
+   // with google
+   const [signInWithGoogle, gUser, googleLoading, googleError] = useSignInWithGoogle(auth);
+
+   const googleSignIn = () => {
+     signInWithGoogle();
+ 
+   };
+
+  // SIGN IN WITH EMAIL AND PASS
   const [
     createUserWithEmailAndPassword,
     user,
@@ -27,7 +37,11 @@ const SignIn = () => {
     error,
   ] = useCreateUserWithEmailAndPassword(auth);
 
-  const from = location.state?.from?.pathname || "/"
+  const from = location.state?.from?.pathname || "/";
+
+  const token = useToken(user || gUser)
+
+  
 
   // with email and pass
   const onSubmit = async (data) =>{
@@ -36,7 +50,7 @@ const SignIn = () => {
     const password = data.password
     await createUserWithEmailAndPassword(email, password)
     await updateProfile( {displayName:name} )
-    navigate(from, {replace:true})
+    
   };
   
 // error
@@ -46,6 +60,9 @@ const SignIn = () => {
   }
   if(updating){
     <Loading/>
+  }
+  if(token){
+    navigate(from, {replace:true})
   }
   return (
     <div className="flex h-screen  bg-gray-100 justify-center items-center">
@@ -137,7 +154,9 @@ const SignIn = () => {
           </p>
           <div className="divider">OR</div>
           {/* google button */}
-          <button className="btn btn-warning text-xl ">
+          <button
+          onClick={googleSignIn}
+          className="btn btn-warning text-xl ">
             Google
           </button>
         </div>
